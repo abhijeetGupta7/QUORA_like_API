@@ -1,29 +1,49 @@
 const express=require("express");
 const statusCodes=require("http-status-codes");
 const NotImplementedError = require("../../errors/not_Implemented_Error");
+const UserService=require("../../services/User.Service");
+const { UserRepository }=require("../../repositories/");
 
-function getUser(req,res,next) {
+const UserActions=new UserService(new UserRepository());
+
+async function getUser(req,res,next) {
     try {
-        throw new NotImplementedError("Get user is not implemented yet",{});    
+        const UserDetails=await UserActions.getUser(req.params.id);
+        return res.status(200).json({
+            success:"true",
+            error:{},
+            message:`"Data of User with id ${req.params.id} is successfully fetched`,
+            data:UserDetails
+        });
     } catch (error) {
         next(error);
-    }
-     
+    }    
 }
 
 
-function createUser(req,res,next) {
+async function createUser(req,res,next) {
     try {
-        throw new NotImplementedError("Create user is not implemented yet",{});    
+        const UserDetails=await UserActions.createUser(req.body);
+        return res.status(201).json({
+            "success":true,
+            error:{},
+            data:UserDetails
+        });        
     } catch (error) {
         next(error);
     }
 }
 
 
-function updateUser(req,res,next) {
+async function updateUser(req,res,next) {
     try {
-        throw new NotImplementedError("Update user is not implemented yet",{});    
+        const UpdatedUserDetails=await UserActions.updateUser(req.params.id,req.body);
+        return res.status(200).json({
+            "success":true,
+            "message":`User with id ${req.params.id} is successfully updated`,
+            error:{},
+            data:UpdatedUserDetails
+        });
     } catch (error) {
         next(error);
     } 
