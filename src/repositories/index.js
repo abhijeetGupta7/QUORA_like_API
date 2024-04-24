@@ -1,3 +1,4 @@
 module.exports={
-    UserRepository:require("./user.repo")
+    UserRepository:require("./user.repo"),
+    QuestionRepository:require("./question.repo")
 }
